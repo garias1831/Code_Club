@@ -4,6 +4,7 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
+from kivy.properties import ObjectProperty
 from kivy.graphics import Color
 from kivy.graphics import Ellipse
 from kivy.lang import Builder
@@ -37,25 +38,17 @@ class Simulator(Widget):
     #TODO -- find a way to call this on widget load, ignore me for now
     def on_load(self):
         self.ids.sim_window.projectile = self.projectile
-
-    #TODO -- delete me
-    def test(self, widget):
-        #print('obj memory adress:' + self)
-        print(f'simulator projectile: {self.projectile}')
-        print(f'widget projectile: {widget.projectile}')
-
     
 
 #Widget where the drawing/actual simulation will take place
 class SimulatorWindow(FloatLayout):
-    pass
+    platform = ObjectProperty(None)
         
-
 
 #Class containing information about the projectile to be launched, such as velocity, position, etc
 class Projectile:
     def __init__(self): #TODO-- update these values to fit better with the GUI representation of projectile
-        self.x_pos = 100
+        self.x_pos = 100 #TODO --
         self.x_velocity = 0
 
         self.y_pos = 100
