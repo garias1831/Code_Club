@@ -1,5 +1,6 @@
 Simulator:
     id: simulator
+    window: sim_window
     BoxLayout:
         orientation:'horizontal'
         pos: root.pos
@@ -40,7 +41,8 @@ Simulator:
             parent: simulator
             projectile: root.projectile #TODO -- if i can find a way to do this in python code, perf, but for now, this works
             #Assigning children to ObjectProperties
-            platform: self.platform
+            platform: platform
+            projectile_img: projectile_img
 
             size_hint: (0.7, 1)
             canvas.before:
@@ -51,19 +53,20 @@ Simulator:
                     size: self.size
             #The actual projectile that will be 'launched'
             Widget:
-                id: proj_img
-                pos_hint: {'x':0.05, 'y':0.0} #TODO -- replace these with bindings
+                id: projectile_img
+                pos_hint: {'x':0.065, 'y':0.0} #TODO -- replace these with bindings
+                size_hint: (0.07, 0.07)
                 canvas:
                     Color: 
                         rgba: 1, 1, 1, 1
                     Ellipse:
                         pos: self.pos
-                        size: (50, 50)
+                        size: self.size
                         source: 'images/proj.png'
             Widget:
                 id: platform
                 pos_hint: {'x':0.05, 'y':0.0} #TODO -- replace these with bindings
-                size_hint: (0.1, root.height)
+                size_hint: (0.1, 0.0)
                 canvas:
                     Color:
                         rgba: 1, 1, 1, 1
