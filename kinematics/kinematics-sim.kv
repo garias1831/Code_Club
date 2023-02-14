@@ -18,11 +18,13 @@ Simulator:
             LabelStyle:
                 text:'Launch Angle (°)'
             TextInputStyle:
-                text: 'text'
+                text: '0.0'
+                on_text: root.update_angle(self.text)
             LabelStyle:
                 text:'Initial Velocity (m/s)'
             TextInputStyle:
-                text: 'f'
+                text: '0.0'
+                on_text: root.update_velocity(self.text)
             BoxLayout:
                 orientation:'horizontal'
                 spacing: '10dp'
@@ -30,10 +32,11 @@ Simulator:
                 Button:
                     size_hint: (0.7, 1)
                     text:'Launch'
-                   # on_press: root.test(sim_window)
+                    on_press: root.start_sim()
                 Button:
                     size_hint: (0.3, 1)
                     text: 'Reset'
+                    on_press: root.reset()
         #Window where the simulation will take place
         SimulatorWindow:
             id: sim_window
@@ -42,6 +45,7 @@ Simulator:
             projectile: root.projectile #TODO -- if i can find a way to do this in python code, perf, but for now, this works
             #Assigning children to ObjectProperties
             platform: platform
+            vector: vector
             projectile_img: projectile_img
 
             size_hint: (0.7, 1)
@@ -64,6 +68,27 @@ Simulator:
                         size: self.size
                         source: 'images/proj.png'
             Widget:
+                id: vector
+                pos_hint: {'x':0.15, 'y': 0.015}
+                size_hint: (0.0, 0.05)
+                angle: 0
+                opacity: 1
+                canvas:
+                    PushMatrix
+                    Rotate: #This might not be super useful but idk
+                        angle: self.angle
+                        origin: projectile_img.center
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                        source: 'images/vector.png'
+                canvas.after:
+                    PopMatrix
+
+                    
+            Widget:
                 id: platform
                 pos_hint: {'x':0.05, 'y':0.0} #TODO -- replace these with bindings
                 size_hint: (0.1, 0.0)
@@ -74,11 +99,6 @@ Simulator:
                         pos: self.pos
                         size: self.size
                         source: 'images/platform.png'
-
-
-
-
-                    
 
 
 #Styles for customizing look of widgets
